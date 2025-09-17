@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>R E X PANEL</title>
+  <link rel="stylesheet" href="style.css"> <!-- هنا تخلي كود CSS الطويل اللي أرسلته -->
+</head>
+<body>
+
+  <header>
+    <h1>🔥 R E X<span class="x-letter">X</span> PANEL 🔥</h1>
+  </header>
+
+  <div class="container">
+    <h2>إدارة اللاعبين</h2>
+
+    <form id="ff-form">
+      <label for="uid">👤 ID اللاعب:</label>
+      <input type="text" id="uid" placeholder="أدخل ID اللاعب">
+
+      <label for="days">⏳ عدد الأيام:</label>
+      <input type="number" id="days" placeholder="عدد الأيام">
+
+      <button type="button" onclick="addUser()">➕ إضافة لاعب</button>
+      <button type="button" onclick="removeUser()">❌ حذف لاعب</button>
+      <button type="button" onclick="listUsers()">📜 عرض القائمة</button>
+      <button type="button" onclick="removeAll()">🧹 حذف الكل</button>
+    </form>
+
+    <div class="result" id="output">
+      📭 لم يتم تنفيذ أي أمر بعد
+    </div>
+  </div>
+
+  <!-- القائمة الجانبية -->
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span>📌 القائمة</span>
+      <button class="close-btn" onclick="toggleSidebar()">×</button>
+    </div>
+    <div class="sidebar-links">
+      <a href="#" class="active">🏠 الرئيسية</a>
+      <a href="#" title="لاحقًا">🔑 Access Token</a>
+      <a href="#">⚙️ الإعدادات</a>
+    </div>
+  </div>
+  <div class="backdrop" id="backdrop" onclick="toggleSidebar()"></div>
+
+  <script>
+    let users = {};
+
+    function addUser(){
+      let uid = document.getElementById("uid").value;
+      let days = document.getElementById("days").value;
+      if(uid && days){
+        users[uid] = days;
+        document.getElementById("output").innerText = `✅ تمت إضافة اللاعب ${uid} لمدة ${days} يوم`;
+      } else {
+        alert("⚠️ أدخل ID اللاعب وعدد الأيام");
+      }
+    }
+
+    function removeUser(){
+      let uid = document.getElementById("uid").value;
+      if(uid in users){
+        delete users[uid];
+        document.getElementById("output").innerText = `❌ تم حذف اللاعب ${uid}`;
+      } else {
+        alert("⚠️ اللاعب غير موجود");
+      }
+    }
+
+    function listUsers(){
+      let output = "📋 قائمة اللاعبين:\n";
+      for(let uid in users){
+        output += `👤 ID: ${uid} | ⏳ ${users[uid]} يوم\n`;
+      }
+      if(Object.keys(users).length === 0) output = "📭 لا يوجد لاعبين بعد";
+      document.getElementById("output").innerText = output;
+    }
+
+    function removeAll(){
+      users = {};
+      document.getElementById("output").innerText = "🧹 تم حذف جميع اللاعبين";
+    }
+
+    function toggleSidebar(){
+      document.getElementById("sidebar").classList.toggle("open");
+      document.getElementById("backdrop").classList.toggle("show");
+    }
+  </script>
+
+</body>
+</html>
